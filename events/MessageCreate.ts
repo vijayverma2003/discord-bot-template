@@ -1,13 +1,16 @@
 import { Events, Message } from "discord.js";
 import { DiscordClient } from "..";
+import handleRaffleLinkMessage from "./messages/raffle";
 
 module.exports = {
   name: Events.MessageCreate,
   async execute(client: DiscordClient, message: Message) {
     if (message.author.bot || !message.guildId || !message.guild) return;
 
+    handleRaffleLinkMessage(message);
+
     try {
-      const prefix = "ruru";
+      const prefix = ".";
 
       if (!message.content.trim().startsWith(prefix)) return;
 

@@ -13,3 +13,41 @@ datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
+
+model Raffle {
+  id          String   @id @default(cuid())
+  name        String
+  linkPattern String // stored regex as string
+  createdAt   DateTime @default(now())
+  endsAt      DateTime
+  entries     Entry[]
+}
+
+model Entry {
+  id        String   @id @default(cuid())
+  userId    String
+  username  String
+  serverId  String
+  link      String   @unique
+  createdAt DateTime @default(now())
+  raffleId  String
+  raffle    Raffle   @relation(fields: [raffleId], references: [id])
+
+  @@index([raffleId, userId])
+}
+
+model EntryChannel {
+  id        String   @id @default(cuid())
+  serverId  String
+  channelId String   @unique
+  addedAt   DateTime @default(now())
+}
+
+model RaffleBan {
+  id       String   @id @default(cuid())
+  userId   String
+  raffleId String
+  bannedAt DateTime @default(now())
+
+  @@unique([userId, raffleId])
+}
