@@ -145,7 +145,7 @@ async function handleCreate(interaction: ChatInputCommandInteraction) {
     const durationInput = interaction.options.getString("duration", true);
 
     const durationMs = ms(durationInput as StringValue);
-    if (!durationMs || durationMs < ms("1d")) {
+    if (!durationMs || durationMs < ms("1 hour")) {
       return interaction.editReply({
         embeds: [
           new EmbedBuilder()
